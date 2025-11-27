@@ -168,12 +168,12 @@ impl<const RESOURCE_TYPE: ResourceType, const AMOUNT: u32> Add<Resource<RESOURCE
 
 impl<const RESOURCE_TYPE: ResourceType, const AMOUNT_LHS: u32, const AMOUNT_RHS: u32>
     Add<Bundle<RESOURCE_TYPE, AMOUNT_RHS>> for Bundle<RESOURCE_TYPE, AMOUNT_LHS>
+where
+    [(); { AMOUNT_LHS + AMOUNT_RHS } as usize]:,
 {
-    type Output = Resource<RESOURCE_TYPE>;
+    type Output = Bundle<RESOURCE_TYPE, { AMOUNT_LHS + AMOUNT_RHS }>;
 
     fn add(self, _rhs: Bundle<RESOURCE_TYPE, AMOUNT_RHS>) -> Self::Output {
-        Resource {
-            amount: AMOUNT_LHS + AMOUNT_RHS,
-        }
+        Bundle::new()
     }
 }
